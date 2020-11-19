@@ -1,0 +1,49 @@
+/*
+ * conversion_ADC.h
+ *
+ *  Created on: Oct 31, 2020
+ *      Author: isae_
+ */
+
+#ifndef CONVERSION_ADC_H_
+#define CONVERSION_ADC_H_
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//                                      Includes Section
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#include "MKL25Z4.h"
+#include "ADC0_driver.h"
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//                                      Define Section
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+//#define TERMOPAR  
+
+#ifdef TERMOPAR 
+
+#define Init_ADC()     ADC_Init(en16bits)
+#define size_Table    (uint8_t)((sizeof (Tabla_Termopar))/(sizeof (Tabla_Termopar[0])))  //la cantidad de espacios en el arreglo
+	
+#else
+
+#define Init_ADC()     ADC_Init(en10bits)//Para LM35
+
+#endif
+
+#define Medidor_input()   ADC_Polling (0)
+
+typedef struct {
+	uint32_t valor_crudo;
+	uint8_t valor_grados;
+}Mapeo_valores;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//                                      Function Section
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void medidor_init (void);
+uint8_t conversion (void);
+
+
+#endif /* CONVERSION_ADC_H_ */
